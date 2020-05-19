@@ -28,6 +28,22 @@ public class JClass {
     private Vars staticVars;
     private InitState initState;
 
+    public short getAccessFlags() {
+        return accessFlags;
+    }
+
+    public Field[] getFields() {
+        return fields;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Method[] getMethods() {
+        return methods;
+    }
+
     public JClass(ClassFile classFile) {
         this.accessFlags = classFile.getAccessFlags();
         this.name = classFile.getClassName();
@@ -47,7 +63,12 @@ public class JClass {
         /*
          * add some code here
          */
-        return null;
+        int len=info.length;
+        fields=new Field[len];
+        for (int i=0;i<len;i++){
+            fields[i]=new Field(info[i],this);
+        }
+        return fields;
     }
 
     private Method[] parseMethods(MethodInfo[] info) {

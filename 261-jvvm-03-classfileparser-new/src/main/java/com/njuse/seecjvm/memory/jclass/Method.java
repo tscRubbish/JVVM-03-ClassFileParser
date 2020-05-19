@@ -14,6 +14,22 @@ public class Method extends ClassMember {
     private int argc;
     private byte[] code;
 
+    public int getMaxLocal() {
+        return maxLocal;
+    }
+
+    public int getMaxStack() {
+        return maxStack;
+    }
+
+    public int getArgc() {
+        return argc;
+    }
+
+    public byte[] getCode() {
+        return code;
+    }
+
     public Method(MethodInfo info, JClass clazz) {
         this.clazz = clazz;
         accessFlags = info.getAccessFlags();
@@ -38,7 +54,34 @@ public class Method extends ClassMember {
          *
          * Beware of long and double type
          */
-
-        return 0;
+        int len=descriptor.length(),sum=0;
+        for (int i=0;i<len;i++) {
+            char ch=descriptor.charAt(i);
+            switch (ch){
+                case 'J':
+                case 'D':{
+                    sum+=2;
+                    break;
+                }
+                case 'L':{
+                    sum+=1;
+                    while (descriptor.charAt(i)!=';') i++;
+                    break;
+                }
+                case '(':break;
+                case ')':{
+                    i=len;break;
+                }
+                case '[':break;
+                default:{
+                    sum+=1;
+                    break;
+                }
+            }
+        }
+        //System.out.println("Des="+getDescriptor());
+        //System.out.println("Name="+getName());
+        //System.out.println("sum="+sum);
+        return sum;
     }
 }

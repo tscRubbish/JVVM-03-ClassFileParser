@@ -21,6 +21,10 @@ public class BuildUtil {
         this.byteBuffer = byteBuffer;
     }
 
+    public ByteBuffer getByteBuffer() {
+        return byteBuffer;
+    }
+
     public int getU1() {
         int signed = byteBuffer.get();
         return signed & 0xFF;

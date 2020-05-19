@@ -33,6 +33,33 @@ public class ClassFile {
 
     private ByteBuffer in;
     Supplier<AttributeInfo> attrBuilder = this::getAttribute;
+    public short getAccessFlags(){
+        return accessFlags;
+    }
+
+    public FieldInfo[] getFields() {
+        return fields;
+    }
+
+    public MethodInfo[] getMethods() {
+        return methods;
+    }
+
+    public ConstantPool getConstantPool() {
+        return constantPool;
+    }
+
+    public short getThisClass() {
+        return thisClass;
+    }
+
+    public short getSuperClass() {
+        return superClass;
+    }
+
+    public short getInterfacesCount() {
+        return interfacesCount;
+    }
 
     public ClassFile(byte[] classfile) {
         in = ByteBuffer.wrap(classfile);
@@ -51,14 +78,19 @@ public class ClassFile {
          */
         parseConstantPool(classfile);
         this.accessFlags = in.getShort();
-
-
+        //System.out.println(accessFlags);
+        this.thisClass=in.getShort();
+        this.superClass=in.getShort();
+//        System.out.println("thisClass="+getThisClass());
+//        System.out.println("superClass="+getSuperClass());
+//        System.out.println("interfaceCount="+getInterfacesCount());
+//        System.out.println("ClassName="+getClassName());
         /**
          * todo call parseinterfaces
          * Add some codes here.
          * You should read thisClass superClass interfaceCount and then parse interfaces correctly
          */
-
+        parseInterfaces();
 
         parseFields();
         parseMethods();
@@ -96,7 +128,12 @@ public class ClassFile {
         /**
          * Add some codes here.
          */
-
+        this.interfacesCount=in.getShort();
+        this.interfaces=new short[0xFFFF & this.interfacesCount];
+        for (int i=0;i<interfacesCount;i++) {
+            interfaces[i]=in.getShort();
+            //System.out.println(constantPool.get(interfaces[i]).toString());
+        }
     }
 
     private void parseConstantPool(byte[] classfile) {

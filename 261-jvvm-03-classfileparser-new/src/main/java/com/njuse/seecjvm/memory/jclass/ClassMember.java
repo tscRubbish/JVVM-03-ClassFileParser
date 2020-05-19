@@ -11,6 +11,22 @@ public abstract class ClassMember {
     public String descriptor;
     public JClass clazz;
 
+    public short getAccessFlags() {
+        return accessFlags;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescriptor() {
+        return descriptor;
+    }
+
+    public JClass getClazz() {
+        return clazz;
+    }
+
     public boolean isPublic() {
         return 0 != (accessFlags & AccessFlags.ACC_PUBLIC);
     }

@@ -31,11 +31,14 @@ public class UTF8Info extends ConstantPoolInfo {
      */
     //todo attributes of UTF8Info
 
-
+    private int length;
+    private byte[] bytes;
     //todo constructor of UTF8Info
     public UTF8Info(ConstantPool constantPool, int length, byte[] bytes){
         super(constantPool);
-
+        super.tag=ConstantPoolInfo.UTF8;
+        this.length=length;
+        this.bytes=bytes;
     }
 
     /**
@@ -48,7 +51,18 @@ public class UTF8Info extends ConstantPoolInfo {
     }
 
     //todo return string
+    public String getMyString() {
+        StringBuilder str=new StringBuilder("");
+        for (int i=0;i<length;i++){
+            str.append(Character.toString((char)bytes[i]));
+        }
+        return str.toString();
+    }
     public String getString() {
-        return "";
+        StringBuilder str=new StringBuilder("");
+        for (int i=0;i<length;i++){
+            str.append(Character.toString((char)bytes[i]));
+        }
+        return str.toString();
     }
 }

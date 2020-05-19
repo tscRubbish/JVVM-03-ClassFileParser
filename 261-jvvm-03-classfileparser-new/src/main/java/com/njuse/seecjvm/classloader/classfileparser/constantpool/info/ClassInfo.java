@@ -20,12 +20,13 @@ public class ClassInfo extends ConstantPoolInfo {
      */
 
     //todo attibute of ClassInfo
-
+    private int index;
 
     //todo constructor of ClassInfo
     public ClassInfo(ConstantPool constantPool, int nameIndex){
-
         super(constantPool);
+        super.tag=ConstantPoolInfo.CLASS;
+        index=nameIndex;
     }
 
     //todo getClassName
@@ -34,7 +35,8 @@ public class ClassInfo extends ConstantPoolInfo {
          * Add some codes here.
          * tips: classname is in UTF8Info
          */
-        return "";
+        UTF8Info utf8Info = (UTF8Info) myCP.get(index);
+        return utf8Info.getString();
     }
 
     @Override
